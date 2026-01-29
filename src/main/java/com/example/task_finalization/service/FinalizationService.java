@@ -16,7 +16,7 @@ public class FinalizationService {
 
     public Finalization finalizeJob(ProcessingJob processingJob) {
         Finalization finalization = Finalization.builder()
-                .taskId(processingJob.getTask_id())
+                .taskId(processingJob.getTaskId())
                 .finalizedAt(LocalDateTime.now())
                 .outcome("Success!")
                 .build();

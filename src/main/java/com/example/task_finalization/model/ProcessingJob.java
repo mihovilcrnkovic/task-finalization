@@ -16,7 +16,7 @@ import java.util.UUID;
 public class ProcessingJob {
     UUID id;
     @NotNull
-    UUID task_id;
+    UUID taskId;
     LocalDateTime receivedAt;
     LocalDateTime processedAt;
     @NotNull
