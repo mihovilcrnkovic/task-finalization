@@ -1,0 +1,18 @@
+services:
+  app-db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=test
+
+  app:
+    build: .
+    ports:
+       - "8082:8082"
+    environment:
+      - DATASOURCE_URL=jdbc:postgresql://app-db:5432/test
+      - DATASOURCE_USERNAME=admin
+      - DATASOURCE_PASSWORD=admin
+    depends_on:
+      - app-db
