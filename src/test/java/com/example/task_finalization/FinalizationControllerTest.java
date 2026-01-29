@@ -41,4 +41,20 @@ public class FinalizationControllerTest {
                 .jsonPath("$.outcome").isEqualTo("Success!");
 
     }
+
+    @Test
+    void should_ReturnBadRequest_when_ResultIsNull() {
+        ProcessingJob processingJob = ProcessingJob.builder()
+                .id(UUID.randomUUID())
+                .taskId(UUID.randomUUID())
+                .receivedAt(LocalDateTime.now())
+                .processedAt(LocalDateTime.now().plus(2, ChronoUnit.SECONDS))
+                .build();
+
+        webTestClient.post().uri("/api/finalize")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(processingJob)
+                .exchange()
+                .expectStatus().isBadRequest();
+    }
 }
