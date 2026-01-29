@@ -3,6 +3,7 @@ package com.example.task_finalization.controller;
 import com.example.task_finalization.model.Finalization;
 import com.example.task_finalization.model.ProcessingJob;
 import com.example.task_finalization.service.FinalizationService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class FinalizationController {
     FinalizationService finalizationService;
 
     @PostMapping("finalize")
-    public ResponseEntity finalizeProcessingJob(@RequestBody ProcessingJob processingJob) {
+    public ResponseEntity finalizeProcessingJob(@RequestBody @Valid ProcessingJob processingJob) {
         Finalization finalization = finalizationService.finalizeJob(processingJob);
         return new ResponseEntity(finalization, HttpStatus.CREATED);
     }
