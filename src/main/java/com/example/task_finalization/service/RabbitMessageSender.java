@@ -13,8 +13,7 @@ public class RabbitMessageSender {
     final RabbitTemplate rabbitTemplate;
     final FanoutExchange processingJobExchange;
 
-    public void sendMessage() {
-        String message = "Hello world!";
+    public void sendMessage(Object message) {
         rabbitTemplate.convertAndSend(processingJobExchange.getName(), "", message);
     }
 }
