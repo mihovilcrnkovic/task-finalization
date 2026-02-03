@@ -13,10 +13,13 @@ import tools.jackson.databind.json.JsonMapper;
 public class KafkaConsumer {
 
     final JsonMapper jsonMapper;
+    final FinalizationService finalizationService;
 
     @KafkaListener(topics = "my-topic")
     public void consumeMessage(ProcessingJob message){
         String stringMsg = jsonMapper.writeValueAsString(message);
         log.info("CONSUMED MESSAGE: " + stringMsg);
+
+        finalizationService.finalizeJob(message);
     }
 }
