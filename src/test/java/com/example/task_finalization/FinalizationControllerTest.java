@@ -7,7 +7,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.rabbitmq.RabbitMQContainer;
+import org.testcontainers.utility.DockerImageName;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -15,11 +21,23 @@ import java.util.UUID;
 
 @SpringBootTest
 @Import(TestcontainersConfiguration.class)
+@Testcontainers
 @AutoConfigureWebTestClient
 public class FinalizationControllerTest {
 
     @Autowired
     WebTestClient webTestClient;
+
+    @Container
+    static RabbitMQContainer rabbit = new RabbitMQContainer(DockerImageName.parse("rabbitmq:3-management"));
+
+    @DynamicPropertySource
+    static void configureRabbit(DynamicPropertyRegistry registry) {
+        registry.add("spring.rabbitmq.host", rabbit::getHost);
+        registry.add("spring.rabbitmq.port", rabbit::getAmqpPort);
+        registry.add("spring.rabbitmq.username", rabbit::getAdminUsername);
+        registry.add("spring.rabbitmq.password", rabbit::getAdminPassword);
+    }
 
     @Test
     void should_FinalizeProcessingJob() {
