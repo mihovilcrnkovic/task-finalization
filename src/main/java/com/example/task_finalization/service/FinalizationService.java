@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class FinalizationService {
 
     FinalizationRepository finalizationRepository;
+    RabbitMessageSender rabbitMessageSender;
 
     public Finalization finalizeJob(ProcessingJob processingJob) {
         Finalization finalization = Finalization.builder()
@@ -22,6 +23,7 @@ public class FinalizationService {
                 .build();
 
         finalization = finalizationRepository.save(finalization);
+        rabbitMessageSender.sendMessage(finalization);
         return finalization;
     }
 
