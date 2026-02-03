@@ -18,6 +18,8 @@ services:
       - DATASOURCE_URL=jdbc:postgresql://app-db-C:5432/test
       - DATASOURCE_USERNAME=admin
       - DATASOURCE_PASSWORD=admin
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - SCHEMA_REGISTRY_URL=http://schema-registry:8081
     depends_on:
       - app-db-C
 
