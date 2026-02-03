@@ -4,20 +4,27 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfig {
 
+    @Value("${rabbitmq.finalization.queue.name}")
+    String finalizationQueueName;
+
+    @Value("${rabbitmq.finalization.exchange.name}")
+    String finalizationExchangeName;
+
     @Bean
     public Queue finalizationQueue() {
-        return new Queue("finalization-queue");
+        return new Queue(finalizationQueueName);
     }
 
     @Bean
     public FanoutExchange finalizationExchange() {
-        return new FanoutExchange("finalization-exchange");
+        return new FanoutExchange(finalizationExchangeName);
     }
 
     @Bean
