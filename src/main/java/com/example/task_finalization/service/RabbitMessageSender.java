@@ -15,6 +15,6 @@ public class RabbitMessageSender {
 
     public void sendMessage() {
         String message = "Hello world!";
-        rabbitTemplate.convertAndSend(processingJobExchange.getName(), message);
+        rabbitTemplate.convertAndSend(processingJobExchange.getName(), "", message);
     }
 }
