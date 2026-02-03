@@ -14,7 +14,7 @@ public class KafkaConsumer {
 
     final JsonMapper jsonMapper;
 
-    @KafkaListener(topics = "my-topic", groupId = "my-group")
+    @KafkaListener(topics = "my-topic")
     public void consumeMessage(ProcessingJob message){
         String stringMsg = jsonMapper.writeValueAsString(message);
         log.info("CONSUMED MESSAGE: " + stringMsg);
