@@ -11,18 +11,18 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitConfig {
 
     @Bean
-    public Queue processingJobQueue() {
-        return new Queue("processing-job-queue");
+    public Queue finalizationQueue() {
+        return new Queue("finalization-queue");
     }
 
     @Bean
-    public FanoutExchange processingJobExchange() {
-        return new FanoutExchange("processing-job-exchange");
+    public FanoutExchange finalizationExchange() {
+        return new FanoutExchange("finalization-exchange");
     }
 
     @Bean
-    public Binding binding(Queue processingJobQueue, FanoutExchange processingJobExchange) {
-        return BindingBuilder.bind(processingJobQueue)
-                .to(processingJobExchange);
+    public Binding binding(Queue finalizationQueue, FanoutExchange finalizationExchange) {
+        return BindingBuilder.bind(finalizationQueue)
+                .to(finalizationExchange);
     }
 }
