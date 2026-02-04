@@ -4,6 +4,7 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,5 +32,10 @@ public class RabbitConfig {
     public Binding binding(Queue finalizationQueue, FanoutExchange finalizationExchange) {
         return BindingBuilder.bind(finalizationQueue)
                 .to(finalizationExchange);
+    }
+
+    @Bean
+    public JacksonJsonMessageConverter jsonMessageConverter() {
+        return new JacksonJsonMessageConverter();
     }
 }
