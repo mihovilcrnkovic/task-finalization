@@ -10,7 +10,7 @@ public class AuthenticationService {
 
     public String getTokenFromContext() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null && auth instanceof JwtAuthenticationToken) {
+        if (auth instanceof JwtAuthenticationToken) {
             return ((JwtAuthenticationToken) auth).getToken().getTokenValue();
         }
         return null;
