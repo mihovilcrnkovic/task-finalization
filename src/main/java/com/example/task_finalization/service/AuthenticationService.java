@@ -2,6 +2,7 @@ package com.example.task_finalization.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -23,9 +24,18 @@ public class AuthenticationService {
         return null;
     }
 
-    public void verifyToken(String bearerToken) {
+    public Jwt verifyToken(String bearerToken) {
         String token = bearerToken.replace("Bearer ", "");
         Jwt jwt = jwtDecoder.decode(token);
+        return jwt;
+    }
+
+    public void setContextAuthentication(String bearerToken) {
+        Jwt jwt = verifyToken(bearerToken);
+        JwtAuthenticationToken authentication = new JwtAuthenticationToken(jwt);
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        context.setAuthentication(authentication);
+        SecurityContextHolder.setContext(context);
     }
 
 }
