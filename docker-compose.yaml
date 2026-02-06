@@ -24,6 +24,10 @@ services:
       - RABBITMQ_PORT=5672
       - RABBITMQ_USER=guest
       - RABBITMQ_PASSWORD=guest
+      - OAUTH_SERVER_ISSUER_URI=http://keycloak:8080/realms/my-realm
+      - OAUTH_SERVER_JWKS_URI=http://keycloak:8080/realms/my-realm/protocol/openid-connect/certs
+      - OAUTH_SERVER_RESOURCE_ID=oauth-client
+      - OAUTH_JWT_PRINCIPAL_ATTRIBUTE=preferred_username
     depends_on:
       - app-db-C
 
