@@ -17,7 +17,7 @@ public class RabbitMessageSender {
     public void sendMessage(Object message) {
         String token = authenticationService.getTokenFromContext();
         rabbitTemplate.convertAndSend(processingJobExchange.getName(), "", message, (msg) -> {
-            msg.getMessageProperties().setHeader("Authorization " , "Bearer " + token);
+            msg.getMessageProperties().setHeader("Authorization" , "Bearer " + token);
             return msg;
         } );
     }
