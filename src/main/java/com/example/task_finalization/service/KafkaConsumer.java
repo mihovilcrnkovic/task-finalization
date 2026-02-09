@@ -16,24 +16,11 @@ public class KafkaConsumer {
 
     final JsonMapper jsonMapper;
     final FinalizationService finalizationService;
-    final AuthenticationService authenticationService;
 
     @KafkaListener(topics = "my-topic")
-    public void consumeMessage(ProcessingJob message, @Header("Authorization") String authorization){
+    public void consumeMessage(ProcessingJob message){
         String stringMsg = jsonMapper.writeValueAsString(message);
-        try {
-            authenticationService.setContextAuthentication(authorization);
-            log.info("CONSUMED MESSAGE: " + stringMsg);
-
-            finalizationService.finalizeJob(message);
-        } catch (Exception e) {
-            String errorMsg = "Exception trying to receive message: " +
-                    stringMsg + "\n\n" +
-                    e.getMessage();
-            log.error(errorMsg);
-        } finally {
-            SecurityContextHolder.clearContext();
-        }
-
+        log.info("CONSUMED MESSAGE: " + stringMsg);
+        finalizationService.finalizeJob(message);
     }
 }
