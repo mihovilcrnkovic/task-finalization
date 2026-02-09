@@ -23,21 +23,10 @@ import java.util.UUID;
 @Import(TestcontainersConfiguration.class)
 @Testcontainers
 @AutoConfigureWebTestClient
-public class FinalizationControllerTest {
+public class FinalizationControllerTest extends AbstractIntegrationTest {
 
     @Autowired
     WebTestClient webTestClient;
-
-    @Container
-    static RabbitMQContainer rabbit = new RabbitMQContainer(DockerImageName.parse("rabbitmq:3-management"));
-
-    @DynamicPropertySource
-    static void configureRabbit(DynamicPropertyRegistry registry) {
-        registry.add("spring.rabbitmq.host", rabbit::getHost);
-        registry.add("spring.rabbitmq.port", rabbit::getAmqpPort);
-        registry.add("spring.rabbitmq.username", rabbit::getAdminUsername);
-        registry.add("spring.rabbitmq.password", rabbit::getAdminPassword);
-    }
 
     @Test
     void should_FinalizeProcessingJob() {
