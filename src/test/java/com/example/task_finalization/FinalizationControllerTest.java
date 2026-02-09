@@ -20,8 +20,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 @SpringBootTest
-@Import(TestcontainersConfiguration.class)
-@Testcontainers
 @AutoConfigureWebTestClient
 public class FinalizationControllerTest extends AbstractIntegrationTest {
 

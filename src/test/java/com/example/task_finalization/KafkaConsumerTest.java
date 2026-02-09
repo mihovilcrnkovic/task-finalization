@@ -17,26 +17,7 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 @SpringBootTest
-@Testcontainers
-@Import(TestcontainersConfiguration.class)
-public class KafkaConsumerTest {
-
-    @Container
-    static ConfluentKafkaContainer kafka = new ConfluentKafkaContainer("confluentinc/cp-kafka:7.4.0");
-
-    @DynamicPropertySource
-    static void configureKafka(DynamicPropertyRegistry registry) {
-        registry.add("spring.kafka.bootstrap-servers", kafka::getBootstrapServers);
-        registry.add("spring.kafka.producer.key-serializer", () -> "org.apache.kafka.common.serialization.StringSerializer");
-        registry.add("spring.kafka.producer.value-serializer", () -> "org.springframework.kafka.support.serializer.JacksonJsonSerializer");
-
-        registry.add("spring.kafka.consumer.key-deserializer", () -> "org.apache.kafka.common.serialization.StringDeserializer");
-        registry.add("spring.kafka.consumer.value-deserializer", () -> "org.springframework.kafka.support.serializer.JacksonJsonDeserializer");
-        registry.add("spring.kafka.consumer.group-id", () -> "my-group");
-        registry.add("spring.kafka.consumer.properties.spring.json.trusted.packages", () -> "*");
-        registry.add("spring.kafka.consumer.properties.spring.json.value.default.type",
-                () -> "com.example.task_finalization.model.ProcessingJob");
-    }
+public class KafkaConsumerTest extends AbstractIntegrationTest {
 
     @Autowired
     KafkaTemplate<String, Object> kafkaTemplate;
