@@ -12,8 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.kafka.support.KafkaUtils;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -48,7 +51,12 @@ public class KafkaConsumerTest extends AbstractIntegrationTest {
                 .processedAt(LocalDateTime.now())
                 .id(UUID.randomUUID())
                 .build();
-        kafkaTemplate.send("my-topic", processingJob).get();
+
+        Message<ProcessingJob> msg = MessageBuilder.withPayload(processingJob)
+                .setHeader(KafkaHeaders.TOPIC, "my-topic")
+                .setHeader("Authorization", "Bearer " + token)
+                .build();
+        kafkaTemplate.send(msg).get();
 
         ConsumerRecords<String, Object> records = KafkaTestUtils.getRecords(testConsumer);
         assertTrue(!records.isEmpty());
