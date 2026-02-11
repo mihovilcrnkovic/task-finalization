@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
@@ -73,6 +74,30 @@ public class KafkaConsumerTest extends AbstractIntegrationTest {
                     Optional<Finalization> optionalFinalization = finalizationRepository.findFinalizationByTaskId(processingJob.getTaskId());
                     assertTrue(optionalFinalization.isPresent());
                 });
-        ;
+    }
+
+    @Test
+    void should_NotCallKafkaListener_when_NoAuthHeader() throws ExecutionException, InterruptedException {
+        ProcessingJob processingJob = ProcessingJob.builder()
+                .taskId(UUID.randomUUID())
+                .result("Test")
+                .processedAt(LocalDateTime.now())
+                .id(UUID.randomUUID())
+                .build();
+
+        Message<ProcessingJob> msg = MessageBuilder.withPayload(processingJob)
+                .setHeader(KafkaHeaders.TOPIC, "my-topic")
+                .build();
+        kafkaTemplate.send(msg).get();
+
+        ConsumerRecords<String, Object> records = KafkaTestUtils.getRecords(testConsumer);
+        assertTrue(!records.isEmpty());
+
+        Awaitility.await()
+                .atMost(Duration.of(5, ChronoUnit.SECONDS))
+                .untilAsserted(() -> {
+                    Optional<Finalization> optionalFinalization = finalizationRepository.findFinalizationByTaskId(processingJob.getTaskId());
+                    assertFalse(optionalFinalization.isPresent());
+                });
     }
 }
