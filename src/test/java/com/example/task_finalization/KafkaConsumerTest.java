@@ -1,6 +1,8 @@
 package com.example.task_finalization;
 
+import com.example.task_finalization.model.Finalization;
 import com.example.task_finalization.model.ProcessingJob;
+import com.example.task_finalization.repository.FinalizationRepository;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -20,6 +22,7 @@ import org.springframework.messaging.support.MessageBuilder;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
@@ -34,6 +37,9 @@ public class KafkaConsumerTest extends AbstractIntegrationTest {
 
     @Autowired
     ConsumerFactory<String, Object> consumerFactory;
+
+    @Autowired
+    FinalizationRepository finalizationRepository;
 
     private Consumer<String, Object> testConsumer;
 
@@ -58,7 +64,10 @@ public class KafkaConsumerTest extends AbstractIntegrationTest {
                 .build();
         kafkaTemplate.send(msg).get();
 
+        Optional<Finalization> optionalFinalization = finalizationRepository.findFinalizationByTaskId(processingJob.getTaskId());
         ConsumerRecords<String, Object> records = KafkaTestUtils.getRecords(testConsumer);
+
         assertTrue(!records.isEmpty());
+        assertTrue(optionalFinalization.isPresent());
     }
 }
