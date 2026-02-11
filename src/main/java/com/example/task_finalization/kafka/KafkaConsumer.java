@@ -1,11 +1,10 @@
-package com.example.task_finalization.service;
+package com.example.task_finalization.kafka;
 
 import com.example.task_finalization.model.ProcessingJob;
+import com.example.task_finalization.service.FinalizationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.messaging.handler.annotation.Header;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import tools.jackson.databind.json.JsonMapper;
 

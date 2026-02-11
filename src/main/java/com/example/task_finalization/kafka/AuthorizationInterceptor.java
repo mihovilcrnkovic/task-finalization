@@ -1,6 +1,7 @@
-package com.example.task_finalization.service;
+package com.example.task_finalization.kafka;
 
 import com.example.task_finalization.model.ProcessingJob;
+import com.example.task_finalization.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.Consumer;

@@ -1,7 +1,7 @@
 package com.example.task_finalization.configuration;
 
 import com.example.task_finalization.model.ProcessingJob;
-import com.example.task_finalization.service.AuthorizationInterceptor;
+import com.example.task_finalization.kafka.AuthorizationInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
