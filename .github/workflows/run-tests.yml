@@ -4,10 +4,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
-  jobs:
-    test:
-      runs-on: ubuntu-latest
+jobs:
+  test:
+    runs-on: ubuntu-latest
 
-      steps:
-        - name: Run unit tests
-          run: echo "Run unit tests!"
+    steps:
+      - name: Run unit tests
+        run: echo "Run unit tests!"
