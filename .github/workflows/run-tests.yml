@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Run unit tests
-        run: echo "Run unit tests!"
+        run: mvn clean package
 
       - name: Run integration tests
-        run: echo "Run integration tests!"
+        run: mvn verify -DskipUts=true
