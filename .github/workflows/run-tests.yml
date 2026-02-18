@@ -1,0 +1,13 @@
+name: Run tests with coverage
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+  jobs:
+    test:
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Run unit tests
+          run: echo "Run unit tests!"
