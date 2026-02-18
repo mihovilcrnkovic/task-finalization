@@ -13,7 +13,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
-public class FInalizationRepositoryTest extends AbstractIntegrationTest {
+public class FInalizationRepositoryIT extends AbstractIntegrationTest {
 
     @Autowired
     FinalizationRepository finalizationRepository;

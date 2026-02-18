@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-public class KafkaConsumerTest extends AbstractIntegrationTest {
+public class KafkaConsumerIT extends AbstractIntegrationTest {
 
     @Autowired
     KafkaTemplate<String, Object> kafkaTemplate;

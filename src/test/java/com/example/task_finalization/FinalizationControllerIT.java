@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @SpringBootTest
 @AutoConfigureWebTestClient
-public class FinalizationControllerTest extends AbstractIntegrationTest {
+public class FinalizationControllerIT extends AbstractIntegrationTest {
 
     @Autowired
     WebTestClient webTestClient;
