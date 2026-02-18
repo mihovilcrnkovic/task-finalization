@@ -51,4 +51,9 @@ public class FinalizationServiceTest {
         Finalization result = finalizationService.finalizeJob(job);
         assertTrue(result.equals(finalization));
     }
+
+    @Test
+    void testFail() {
+        assertTrue(false);
+    }
 }
