@@ -13,3 +13,6 @@ jobs:
     steps:
       - name: Run unit tests
         run: echo "Run unit tests!"
+
+      - name: Run integration tests
+        run: echo "Run integration tests!"
