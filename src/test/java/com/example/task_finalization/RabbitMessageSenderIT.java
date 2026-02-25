@@ -4,6 +4,7 @@ import com.example.task_finalization.model.Finalization;
 import com.example.task_finalization.service.RabbitMessageSender;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class RabbitMessageSenderIT extends AbstractIntegrationTest {
+
+    @Autowired
+    RabbitAdmin rabbitAdmin;
 
     @Autowired
     RabbitMessageSender rabbitMessageSender;
@@ -33,6 +37,7 @@ public class RabbitMessageSenderIT extends AbstractIntegrationTest {
                 .outcome("Test")
                 .build();
 
+        rabbitAdmin.purgeQueue(finalizationQueue.getName());
         rabbitMessageSender.sendMessage(finalization);
 
         Finalization result = (Finalization) rabbitTemplate.receiveAndConvert(finalizationQueue.getName());
