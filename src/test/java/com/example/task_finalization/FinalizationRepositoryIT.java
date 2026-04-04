@@ -18,6 +18,7 @@ public class FinalizationRepositoryIT extends AbstractIntegrationTest {
     @Autowired
     FinalizationRepository finalizationRepository;
 
+
     @Test
     void should_FindFinalizationByTaskId() {
         Finalization finalization = Finalization.builder()
